@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ejemplo002;
+
+
 /**
  *
  * @author reroes
@@ -29,7 +31,9 @@ public class Principal1 {
         int notaAlta;
         int numeroNotasArribaPromedio;
         int [] filaNotas;
-        String mensajeFinal = "";// Creamos una cadena acumuladora
+        String mensaje= "";
+        CrearArchivoTexto.agregarRegistros(mensaje);
+        String mensajeF = "";// Creamos una cadena acumuladora
         for (int i = 0; i < nombres.length; i++) {
             nombre = nombres[i];
             apellido = apellidos[i];
@@ -44,28 +48,29 @@ public class Principal1 {
             /*
             en la cadena llamamos a la funcion obtenerReporte para imprimir todo
             */
-            mensajeFinal = String.format("%s%s\n",
-                    mensajeFinal, 
+            mensajeF = String.format("%s%s\n",
+                    mensajeF, 
                     presentarReporte(nombre, apellido, email, tipoNotas, 
                     promedioEstudiante, numeroNotasArribaPromedio, notaBaja, notaAlta));
             
         }
-        CrearArchivoTexto.agregarRegistros(mensajeFinal);
+        CrearArchivoTexto.agregarRegistros(mensajeF);
+        System.out.printf("%S\n%S",mensajeF, mensaje);
 
     }
     
-    public static String presentarReporte(String nom, String ap, String em, String notas, 
+    public static String presentarReporte(String nom, String ap, String email, String notas, 
             double prom, int numeroNotas, int notaB, int notaA){
         String reporte = String.format("Nombres: %s\n"
                 + "Apellidos: %s\n"
                 + "Username: %s\n"
                 + "Con notas: \n"
                 + "%s\n"
-                + "Promedio - %2f\n"
-                + "Número de notas arriba del promedio: %d\n\n"
-                + "Nota mas baja: %d\n"
-                + "Nota mas Alta: %d\n\n",
-                nom, ap, em, notas, prom, numeroNotas, notaB, notaA);
+                + "Promedio - %.2f\n"
+                + "Numero de notas arriba del promedio: %d\n\n"
+                + "Nota mas Alta: %d\n"
+                + "Nota mas Baja: %d\n\n",
+                nom, ap, email, notas, prom, numeroNotas, notaA, notaB);
         
         return reporte;
     }
@@ -158,16 +163,15 @@ public class Principal1 {
         return notaBaja;
     }
     public static int obtenerNotaA(int [] a){
-        int notaBaja;
-        notaBaja = a[0];
+        int notaA;
+        notaA = a[0];
         for(int i = 0; i < a.length; i++){
-            if(a[i] > notaBaja){
-                notaBaja = a[i];
+            if(a[i] > notaA){
+                notaA = a[i];
             }
         }
-        return notaBaja;
+        return notaA;
     }
-    
     
     
 }
