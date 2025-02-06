@@ -11,44 +11,61 @@ public class Principal1 {
 
     public static void main(String[] args) {
         
-        String [] nombres = { "Jason", "Jonathan", "Kristen", "Robin", "Michelle", "Emily", "Noah", "Daniel"};
-        String [] apellidos = { "Lynch", "George", "Lang", "Cochran", "Young", "Fletcher", "Adkins", "Harris"};
-        int [][] notas = { {10, 80, 80, 95}, {40, 80, 80, 45}, {80, 10, 20, 55}, {70, 30, 20, 65}, 
-            {60, 50, 70, 75}, {50, 70, 30, 85},{40, 80, 40, 45}, {30, 90, 50, 95}};
+        String [] nombres = { "Jason", "Jonathan", "Kristen", "Robin", 
+            "Michelle", "Emily", "Noah", "Daniel"};
+        String [] apellidos = { "Lynch", "George", "Lang", "Cochran", 
+            "Young", "Fletcher", "Adkins", "Harris"};
+        int [][] notas = { {10, 80, 80, 95}, {40, 80, 80, 45}, {80, 10, 20, 55},
+            {70, 30, 20, 65}, {60, 50, 70, 75}, {50, 70, 30, 85},
+            {40, 80, 40, 45}, {30, 90, 50, 95}};
         
         double promedio_paralelo = obtenerPromedioParalelo(notas);
         String nombre;
         String apellido;
         String tipoNotas;
+        String email;
         double promedioEstudiante;
+        int notaBaja;
+        int notaAlta;
         int numeroNotasArribaPromedio;
         int [] filaNotas;
-        String mensajeFinal = "";
+        String mensajeFinal = "";// Creamos una cadena acumuladora
         for (int i = 0; i < nombres.length; i++) {
             nombre = nombres[i];
             apellido = apellidos[i];
             filaNotas = notas[i];
+            email = obtenerEmail(nombre, apellido);
+            notaBaja = obtenerNotaB(filaNotas);
+            notaAlta = obtenerNotaA(filaNotas);
             promedioEstudiante = funcion01(filaNotas);
             numeroNotasArribaPromedio = funcion02(filaNotas, 
                     promedio_paralelo);
             tipoNotas = funcion03(filaNotas);
-            mensajeFinal = String.format("%s%s\n", mensajeFinal, 
-                    presentarReporte(nombre, apellido, tipoNotas, 
-                    promedioEstudiante, numeroNotasArribaPromedio));
+            /*
+            en la cadena llamamos a la funcion obtenerReporte para imprimir todo
+            */
+            mensajeFinal = String.format("%s%s\n",
+                    mensajeFinal, 
+                    presentarReporte(nombre, apellido, email, tipoNotas, 
+                    promedioEstudiante, numeroNotasArribaPromedio, notaBaja, notaAlta));
+            
         }
         CrearArchivoTexto.agregarRegistros(mensajeFinal);
 
     }
     
-    public static String presentarReporte(String nom, String ap, String notas, 
-            double prom, int numeroNotas){
+    public static String presentarReporte(String nom, String ap, String em, String notas, 
+            double prom, int numeroNotas, int notaB, int notaA){
         String reporte = String.format("Nombres: %s\n"
                 + "Apellidos: %s\n"
+                + "Username: %s\n"
                 + "Con notas: \n"
                 + "%s\n"
                 + "Promedio - %2f\n"
-                + "Número de notas arriba del promedio: %d\n\n",
-                nom, ap, notas, prom, numeroNotas);
+                + "Número de notas arriba del promedio: %d\n\n"
+                + "Nota mas baja: %d\n"
+                + "Nota mas Alta: %d\n\n",
+                nom, ap, em, notas, prom, numeroNotas, notaB, notaA);
         
         return reporte;
     }
@@ -117,6 +134,39 @@ public class Principal1 {
         return cadena;
     }
     
+    public static String obtenerEmail(String a, String b){
+        String email = "";
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        String inicial = a.substring(0, 1);
+        
+        email = String.format("%s.%s@utpl.edu.ec",
+                inicial,
+                b);
+        return email;
+        
+        
+    }
+    public static int obtenerNotaB(int [] a){
+        int notaBaja;
+        notaBaja = a[0];
+        for(int i = 0; i < a.length; i++){
+            if(a[i] < notaBaja){
+                notaBaja = a[i];
+            }
+        }
+        return notaBaja;
+    }
+    public static int obtenerNotaA(int [] a){
+        int notaBaja;
+        notaBaja = a[0];
+        for(int i = 0; i < a.length; i++){
+            if(a[i] > notaBaja){
+                notaBaja = a[i];
+            }
+        }
+        return notaBaja;
+    }
     
     
     
